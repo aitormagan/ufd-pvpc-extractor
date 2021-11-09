@@ -46,9 +46,9 @@ class Influx:
 
     def get_measurement_last_day(self, measurement: Measurement):
         try:
-            query = f"SELECT last(value), time from a{measurement.value};"
+            query = f"SELECT last(value), time from {measurement.value};"
             result = self.client.query(query)
 
             return datetime.strptime(list(result.items()[0][1])[0]["time"].split("T")[0], "%Y-%m-%d")
         except IndexError:
-            return datetime(2021, 6, 1)
+            return datetime(2021, 5, 31)
