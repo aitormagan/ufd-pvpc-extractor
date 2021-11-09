@@ -89,8 +89,8 @@ def update_consumption_day(ufd_token, cupses, day):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--pvpc', help='Update PVPC until tomorrow', action="store_true")
-    parser.add_argument('--consumption', help='Update consumption until yesterday', action="store_true")
+    parser.add_argument('--pvpc', help='Update PVPC since last update (or 2021-06-01) until tomorrow', action="store_true")
+    parser.add_argument('--consumption', help='Update consumption since last update (or 2021-06-01) until yesterday', action="store_true")
 
     args = parser.parse_args()
 
