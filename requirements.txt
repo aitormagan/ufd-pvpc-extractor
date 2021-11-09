@@ -1,0 +1,2 @@
+requests~=2.26.0
+influxdb~=5.3.1
