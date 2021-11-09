@@ -14,7 +14,7 @@ UFD_HEADERS = {"X-Appversion": "1.0.0.0", "X-Application": "ACUFD", "X-AppClient
 
 def update_consumption(influx_client):
     ufd_token = login(DNI, PASS)
-    cupses = get_cups(DNI, ufd_token)
+    cupses = get_cupses(DNI, ufd_token)
     day = influx_client.get_measurement_last_day(Measurement.CONSUMPTION) + timedelta(1)
     today = datetime.combine(date.today(), datetime.min.time())
 
@@ -38,14 +38,14 @@ def login(user, password):
     return res.json()["accessToken"]
 
 
-def get_cups(user, token):
-    headers = get_udf_headers(token)
+def get_cupses(user, token):
+    headers = get_ufd_headers(token)
     res = requests.get(f"https://api.ufd.es/ufd/v1.0/supplypoints?filter=documentNumber::{user}", headers=headers)
     return [x["cups"] for x in res.json()["supplyPoints"]["items"]]
 
 
 def get_day_consumption(token, cups, day):
-    headers = get_udf_headers(token)
+    headers = get_ufd_headers(token)
     day_str = day.strftime("%d/%m/%Y")
     res = requests.get(f"https://api.ufd.es/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7CisDelegate::N%7CisSelfConsumption::0%7CmeasurementSystem::O",
                        headers=headers)
@@ -54,7 +54,7 @@ def get_day_consumption(token, cups, day):
     return {x["hour"] - 1: float(x["consumptionValue"].replace(",", ".")) for x in consumptions}
 
 
-def get_udf_headers(token):
+def get_ufd_headers(token):
     headers = {"Authorization": f"Bearer {token}"}
     headers.update(UFD_HEADERS)
     return headers
