@@ -11,6 +11,7 @@ MADRID_TZ = pytz.timezone("Europe/Madrid")
 class Measurement(Enum):
     CONSUMPTION = "consumption"
     PVPC = "pvpc"
+    FINAL_COST = "final_cost"
 
 
 class Influx:

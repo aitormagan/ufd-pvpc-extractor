@@ -13,8 +13,8 @@ UFD_HEADERS = {"X-Appversion": "1.0.0.0", "X-Application": "ACUFD", "X-AppClient
 
 
 def update_consumption(influx_client):
-    ufd_token = login(DNI, PASS)
-    cupses = get_cupses(DNI, ufd_token)
+    ufd_token = login()
+    cupses = get_cupses(ufd_token)
     day = influx_client.get_measurement_last_day(Measurement.CONSUMPTION) + timedelta(1)
     today = datetime.combine(date.today(), datetime.min.time())
 
@@ -32,15 +32,15 @@ def update_consumption_day(influx_client, ufd_token, cupses, day):
     print(f"Consumption for {day_str} processed...")
 
 
-def login(user, password):
-    res = requests.post("https://api.ufd.es/ufd/v1.0/login", json={"user": user, "password": password},
+def login():
+    res = requests.post("https://api.ufd.es/ufd/v1.0/login", json={"user": DNI, "password": PASS},
                         headers=UFD_HEADERS)
     return res.json()["accessToken"]
 
 
-def get_cupses(user, token):
+def get_cupses(token):
     headers = get_ufd_headers(token)
-    res = requests.get(f"https://api.ufd.es/ufd/v1.0/supplypoints?filter=documentNumber::{user}", headers=headers)
+    res = requests.get(f"https://api.ufd.es/ufd/v1.0/supplypoints?filter=documentNumber::{DNI}", headers=headers)
     return [x["cups"] for x in res.json()["supplyPoints"]["items"]]
 
 
