@@ -25,6 +25,7 @@ def update_pvpc_day(influx_client, day):
 
 
 def get_day_pvpc(day):
+    day_str = day.strftime("%Y-%m-%d")
     url = f"https://api.esios.ree.es/indicators/1001?start_date={day_str}T00:00:00.000&end_date={day_str}T23:59:59.000&geo_ids%5B%5D=8741"
     data = requests.get(url, headers={"x-api-key": f"{REE_TOKEN}"}).json()
     return {datetime.fromisoformat(x["datetime"]).hour: x["value"] / 1000 for x in data["indicator"]["values"]}
