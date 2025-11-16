@@ -8,9 +8,24 @@ DNI = os.environ.get("UFD_USER")
 PASS = os.environ.get("UFD_PASS")
 
 
-UFD_HEADERS = {"X-Appversion": "1.0.0.0", "X-Application": "ACUFD", "X-AppClientSecret": "4CUFDW3b",
-               "X-Appclientid": "ACUFDWeb", "X-AppClient": "ACUFDW"}
-
+UFD_HEADERS = {
+    "X-Application": "ACUFD",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+    "X-MessageId": "0/kUKK1Ul1xrbjdMs/1",
+    "Access-Control-Allow-Origin": "*",
+    "X-AppClient": "ACUFDMI",
+    "Origin": "capacitor://localhost",
+    "Sec-Fetch-Dest": "empty",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+    "Sec-Fetch-Site": "cross-site",
+    "X-AppClientSecret": "102sml3ajvkdjakoh2rhgrfpvjogl4b0or5nqmcmilvt2odpu9ce",
+    "Connection": "keep-alive",
+    "Accept-Language": "es-ES,es;q=0.9",
+    "X-Appclientid": "1f3n1frmnqn14arndr3507lnok",
+    "X-Appversion": "1.0.0.0",
+    "Accept": "*/*",
+    "Sec-Fetch-Mode": "cors",
+}
 
 def update_consumption(influx_client):
     ufd_token = login()
