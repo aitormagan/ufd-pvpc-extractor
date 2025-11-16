@@ -22,6 +22,10 @@ def update_final_cost_day(influx_client, ufd_token, cupses, day):
     for cups in cupses:
         consumption_map = ufd.get_day_consumption(ufd_token, cups, day)
 
+        # Fix missing hour in daylight saving time change
+        if 2 not in pvpc_price:
+            pvpc_price[2] = pvpc_price[1]
+
         price_pvpc = {x: consumption_map[x] * pvpc_price[x] for x in consumption_map}
         price_naturgy = {x: consumption_map[x] * naturgy_price[x] for x in consumption_map}
         price_repsol = {x: consumption_map[x] * repsol_price[x] for x in consumption_map}
