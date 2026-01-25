@@ -66,7 +66,7 @@ def get_day_consumption(token, cups, day):
                        headers=headers)
     consumptions = res.json()["items"][0]["consumptions"]["items"]
 
-    return {x["hour"] - 1: float(x["consumptionValue"].replace(",", ".")) for x in consumptions}
+    return {int(x["hour"]) - 1: float(x["consumptionValue"].replace(",", ".")) for x in consumptions}
 
 
 def get_ufd_headers(token):
