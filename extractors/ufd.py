@@ -88,8 +88,7 @@ def get_day_consumption(token, cups, day):
 def update_self_consumption(influx_client):
     ufd_token = login()
     cupses = get_cupses(ufd_token)
-    # day = influx_client.get_measurement_last_day(Measurement.SELF_CONSUMPTION_GENERATED) + timedelta(1)
-    day = datetime(2025, 12, 2)
+    day = influx_client.get_measurement_last_day(Measurement.SELF_CONSUMPTION_GENERATED) + timedelta(1)
     today = datetime.combine(date.today(), datetime.min.time())
 
     while day < today:
