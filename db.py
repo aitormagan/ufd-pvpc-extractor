@@ -12,6 +12,9 @@ class Measurement(Enum):
     CONSUMPTION = "consumption"
     PVPC = "pvpc"
     FINAL_COST = "final_cost"
+    SELF_CONSUMPTION_GENERATED = "self_consumption_generated"
+    SELF_CONSUMPTION_SURPLUS = "self_consumption_surplus"
+    SELF_CONSUMPTION_USED = "self_consumption_used"
 
 
 class Influx:
