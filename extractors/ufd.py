@@ -25,14 +25,17 @@ UFD_HEADERS = {
     "X-Appversion": "1.0.0.0",
     "Accept": "*/*",
     "Sec-Fetch-Mode": "cors",
+    "Client_id": "aabb49725bde4d2fae41b3bd50de7c2c",
+    "Client_secret": "6690325beb3443a7Aa68eacf3300f2c6"
 }
 
 DATE_FORMAT = "%d/%m/%Y"
+BASE_PATH = "https://mapi.ufd.es/ufd-cdi-exp-pds/api/pds"
 
 # Generic
 
 def login():
-    res = requests.post("https://api.ufd.es/ufd/v1.0/login", 
+    res = requests.post(f"{BASE_PATH}/ufd/v1.0/login", 
                         json={"user": DNI, "password": PASS},
                         headers=UFD_HEADERS, timeout=30)
     return res.json()["accessToken"]
@@ -46,7 +49,7 @@ def get_ufd_headers(token):
 
 def get_cupses(token):
     headers = get_ufd_headers(token)
-    res = requests.get(f"https://api.ufd.es/ufd/v1.0/supplypoints?filter=documentNumber::{DNI}",
+    res = requests.get(f"{BASE_PATH}/ufd/v1.0/supplypoints?filter=documentNumber::{DNI}",
                        headers=headers, timeout=30)
     return [x["cups"] for x in res.json()["supplyPoints"]["items"]]
 
@@ -76,7 +79,7 @@ def update_consumption_day(influx_client, ufd_token, cupses, day):
 def get_day_consumption(token, cups, day):
     headers = get_ufd_headers(token)
     day_str = day.strftime(DATE_FORMAT)
-    res = requests.get(f"https://api.ufd.es/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7CisDelegate::N%7CisSelfConsumption::0%7CmeasurementSystem::O",
+    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7C$
                        headers=headers, timeout=30)
     consumptions = res.json()["items"][0]["consumptions"]["items"]
 
@@ -110,7 +113,7 @@ def update_self_consumption_day(influx_client, ufd_token, cupses, day):
 def get_day_self_consumption(token, cups, day):
     headers = get_ufd_headers(token)
     day_str = day.strftime(DATE_FORMAT)
-    res = requests.get(f"https://api.ufd.es/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7CisDelegate::N%7CisSelfConsumption::1%7CmeasurementSystem::O",
+    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7C$
                        headers=headers, timeout=30)
     self_consumptions = res.json()["selfConsumptions"]["items"]
 
