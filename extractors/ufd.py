@@ -79,7 +79,7 @@ def update_consumption_day(influx_client, ufd_token, cupses, day):
 def get_day_consumption(token, cups, day):
     headers = get_ufd_headers(token)
     day_str = day.strftime(DATE_FORMAT)
-    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7C$
+    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7CisDelegate::N%7CisSelfConsumption::0%7CmeasurementSystem::O",
                        headers=headers, timeout=30)
     consumptions = res.json()["items"][0]["consumptions"]["items"]
 
@@ -113,7 +113,7 @@ def update_self_consumption_day(influx_client, ufd_token, cupses, day):
 def get_day_self_consumption(token, cups, day):
     headers = get_ufd_headers(token)
     day_str = day.strftime(DATE_FORMAT)
-    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7C$
+    res = requests.get(f"{BASE_PATH}/ufd/v1.0/consumptions?filter=nif::{DNI}%7Ccups::{cups}%7CstartDate::{day_str}%7CendDate::{day_str}%7Cgranularity::H%7Cunit::K%7Cgenerator::0%7CisDelegate::N%7CisSelfConsumption::1%7CmeasurementSystem::O",
                        headers=headers, timeout=30)
     self_consumptions = res.json()["selfConsumptions"]["items"]
 
